@@ -6,7 +6,7 @@ cffi==1.12.3
 chardet==3.0.4
 ConfigArgParse==0.14.0
 configobj==5.0.6
-cryptography==2.6.1
+cryptography==3.2
 future==0.17.1
 idna==2.8
 josepy==1.1.0
