@@ -123,6 +123,15 @@ If you want to disable the cronjob completely, run:
 
 To reenable it again simply set the `nextcloud.cron-interval` snap variable to a value that isn't `-1`
 
+#### HTTP compression configuration
+
+If desired the snap can use HTTP compression by running:
+
+    $ sudo snap set nextcloud http.compression=true
+
+To disable it again just run:
+
+    $ sudo snap set nextcloud http.compression=false
 
 #### Debug mode
 

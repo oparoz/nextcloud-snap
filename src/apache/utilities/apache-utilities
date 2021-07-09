@@ -102,3 +102,40 @@ apache_set_previous_https_port()
 {
 	snapctl set private.ports.https="$1"
 }
+
+apache_previous_compression_status()
+{
+	snapctl get private.http.compression
+}
+
+apache_set_previous_compression_status()
+{
+	snapctl set private.http.compression="$1"
+}
+
+apache_set_compression_status()
+{
+	snapctl set http.compression="$1"
+}
+
+apache_compression()
+{
+	compression="$(snapctl get http.compression)"
+
+	if [ -z "$compression" ]; then
+		compression="false"
+		apache_set_compression_status "false"
+		apache_set_previous_compression_status "false"
+	fi
+
+	echo "$compression"
+}
+
+should_enable_compression()
+{
+	if [ "$(apache_compression)" = "true" ]; then
+		return 0
+	else
+		return 1
+	fi
+}

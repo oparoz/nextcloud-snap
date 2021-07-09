@@ -145,7 +145,13 @@ parts:
       # Work around by unsetting setgid. FIXME: Remove when bug is fixed.
       find . -perm -g+s -exec chmod g-s {} \;
 
-    # The built-in Apache modules to enable
+    build-packages:
+      - libbrotli-dev
+
+    stage-packages:
+      - libbrotli1
+
+      # The built-in Apache modules to enable
     modules:
       - headers
       - proxy
@@ -163,6 +169,8 @@ parts:
       - slotmem_shm
       - log_config
       - logio
+      - brotli
+      - filter
 
     filesets:
       exclude:

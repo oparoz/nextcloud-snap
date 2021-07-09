@@ -25,9 +25,17 @@ else
 	echo "No certificates are active: using HTTP only"
 fi
 
+if should_enable_compression; then
+	echo "HTTP compression is enabled"
+	params="$params -DEnableCompression"
+else
+	echo "HTTP compression is disabled"
+fi
+
 if debug_mode_enabled; then
 	params="$params -DDebug"
 fi
+
 
 HTTP_PORT="$(apache_http_port)"
 HTTPS_PORT="$(apache_https_port)"
