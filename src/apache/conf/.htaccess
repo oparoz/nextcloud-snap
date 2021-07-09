@@ -1,0 +1,32 @@
+# Retreived from https://download.nextcloud.com/server/releases/nextcloud-21.0.1.tar.bz2
+ErrorDocument 403 ${WEBROOT}/
+ErrorDocument 404 ${WEBROOT}/
+<IfModule mod_rewrite.c>
+  Options -MultiViews
+  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]
+  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]
+  RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav)$
+  RewriteCond %{REQUEST_FILENAME} !core/img/favicon.ico$
+  RewriteCond %{REQUEST_FILENAME} !core/img/manifest.json$
+  RewriteCond %{REQUEST_FILENAME} !/remote.php
+  RewriteCond %{REQUEST_FILENAME} !/public.php
+  RewriteCond %{REQUEST_FILENAME} !/cron.php
+  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update.php
+  RewriteCond %{REQUEST_FILENAME} !/status.php
+  RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php
+  RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php
+  RewriteCond %{REQUEST_FILENAME} !/robots.txt
+  RewriteCond %{REQUEST_FILENAME} !/updater/
+  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/
+  RewriteCond %{REQUEST_FILENAME} !/ocm-provider/
+  RewriteCond %{REQUEST_URI} !^/\.well-known/(acme-challenge|pki-validation)/.*
+  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode(_arm64)?/proxy.php$
+  RewriteRule . index.php [PT,E=PATH_INFO:$1]
+  RewriteBase ${REWRITEBASE}
+  <IfModule mod_env.c>
+    SetEnv front_controller_active true
+    <IfModule mod_dir.c>
+      DirectorySlash off
+    </IfModule>
+  </IfModule>
+</IfModule>

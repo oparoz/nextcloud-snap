@@ -71,3 +71,40 @@ set_previous_cronjob_interval()
 {
 	snapctl set private.nextcloud.cron-interval="$1"
 }
+
+nextcloud_previous_prettyurls_status()
+{
+	snapctl get private.nextcloud.prettyurls
+}
+
+nextcloud_set_previous_prettyurls_status()
+{
+	snapctl set private.nextcloud.prettyurls="$1"
+}
+
+nextcloud_set_prettyurls_status()
+{
+	snapctl set nextcloud.prettyurls="$1"
+}
+
+nextcloud_prettyurls()
+{
+	prettyurls="$(snapctl get nextcloud.prettyurls)"
+
+	if [ -z "$prettyurls" ]; then
+		prettyurls="false"
+		nextcloud_set_prettyurls_status "false"
+		nextcloud_set_previous_prettyurls_status "false"
+	fi
+
+  echo "$prettyurls"
+}
+
+should_enable_prettyurls()
+{
+	if [ "$(nextcloud_prettyurls)" = "true" ]; then
+		return 0
+	else
+		return 1
+	fi
+}

@@ -131,7 +131,29 @@ handle_mode()
 	snapctl restart nextcloud.php-fpm
 }
 
+handle_prettyurls_setting()
+{
+	prettyurls_status="$(snapctl get nextcloud.prettyurls)"
+	previous_prettyurls_status="$(nextcloud_previous_prettyurls_status)"
+
+	# Return if no new changes were requested
+	if [ "$prettyurls_status" = "$previous_prettyurls_status" ]; then
+		return 0;
+	fi
+
+	# Validate input
+	if [ "$prettyurls_status" = "true" ] || [ "$prettyurls_status" = "false" ] ; then
+		nextcloud_set_prettyurls_status "$prettyurls_status"
+		nextcloud_set_previous_prettyurls_status "$prettyurls_status"
+	fi
+
+	if ! restart_apache_if_running; then
+		return 1
+	fi
+}
+
 handle_apache_port_config && \
 handle_php_memory_limit && \
 handle_cronjob_interval && \
-handle_mode
+handle_mode && \
+handle_prettyurls_setting

@@ -1,0 +1,34 @@
+name: get prettyurl conf
+
+on:
+  push:
+    branches:    
+    - '**'
+    - '!master'
+    - '![12][0-9]'
+    - '!develop'
+
+jobs:
+  get-prettyurl-conf:
+    name: Get Prettyurl conf
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Create local changes
+        run: |
+          chmod +x ./prettyurl.sh
+          bash -x ./prettyurl.sh
+      - name: Commit files
+        if: ${{ success() }}
+        continue-on-error: true
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add prettyurl conf" -a
+      - name: Push changes
+        if: ${{ success() }}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
