@@ -42,6 +42,7 @@ apps:
     daemon: simple
     restart-condition: always
     plugs:
+      - desktop
       - network
       - network-bind
 
