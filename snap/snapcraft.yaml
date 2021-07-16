@@ -1,4 +1,4 @@
-name: nextcloud
+name: nextcloud-facerec
 version: git
 summary: Nextcloud Server - A safe home for all your data
 description: |
@@ -11,10 +11,19 @@ base: core18
 
 architectures:
   - build-on: amd64
-  - build-on: i386
-  - build-on: arm64
-  - build-on: armhf
-  - build-on: ppc64el
+  # let'start with one build
+  # - build-on: i386
+  # - build-on: arm64
+  # - build-on: armhf
+  # - build-on: ppc64el  
+  
+package-repositories:
+  - type: apt
+    components: [focal]
+    suites: [focal]
+    key-id: 8307CAB2B61BF4075378A94E39217939ED3D07DB
+    url: https://repo.delellis.com.ar
+    architectures: [amd64]
 
 apps:
   # Apache daemon
@@ -254,6 +263,8 @@ parts:
       - libgmp-dev
       - libzip-dev
       - libargon2-0-dev
+      - php7.4-pdlib
+      # php7.4-pdlib --> deb [arch=amd64] https://repo.delellis.com.ar focal focal
 
       # This is no longer bundled with PHP as of v7.4
       - libonig-dev
